@@ -10,7 +10,7 @@ from geometry_msgs.msg import Pose
 from gazebo_msgs.msg import ModelState
 from gazebo_msgs.srv import SetModelState, GetModelState
 from sensor_msgs.msg import RegionOfInterest
-from sts_msgs.msg import Float64
+from std_msgs.msg import Float64
 
 FREQ = 10
 

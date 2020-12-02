@@ -56,7 +56,7 @@
                 </noise>
             </ray>
             <plugin name="leica_plugin" filename="libleica_plugin.so">
-                <topicName>/c5/laser/scan</topicName>
+                <topicName>/c5/simulator/scan</topicName>
                 <frameName>sensor_link</frameName>
                 <!--update_rate>40</update_rate-->
             </plugin>
