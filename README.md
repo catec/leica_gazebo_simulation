@@ -25,15 +25,15 @@ This is involved in a ROSIN project.
 
 Generate default world and place the device at your convenience
 
-    roslaunch leica_gazebo_simulation c5_system_spawn.launch world:=assembly_line_cajon_fods
+    roslaunch leica_gazebo_simulation c5_system_spawn.launch world:=assembly_line
 
     roslaunch leica_gazebo_simulation laserscan_to_pointcloud.launch namespace:=c5
 
     rosrun leica_gazebo_simulation move_c5_pan.py
 
-    rostopic pub /c5/simulator/window sensor_msgs/RegionOfInterest "{x_offset: 0, y_offset: 0, height: 1, width: 2, do_rectify: false}"
-
     rostopic pub /c5/simulator/resolution std_msgs/Float64 "data: 1024.0"
+
+    rostopic pub /c5/simulator/window sensor_msgs/RegionOfInterest "{x_offset: 0, y_offset: 0, height: 1, width: 2, do_rectify: false}"
 
 ## Dependencies ##
 
