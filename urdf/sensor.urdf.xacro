@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="c5_xacro">
+    <xacro:arg name="x" default="0"/>
+    <xacro:arg name="y" default="0"/>
+    <xacro:arg name="z" default="0"/>
+
+    <link name="sensor_link">
+        <inertial>
+            <origin xyz="$(arg x) $(arg y) $(arg z)" />
+            <mass value="3.2" />
+            <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0" />
+        </inertial>
+        <visual>
+            <origin xyz="$(arg x) $(arg y) $(arg z)"/>
+            <geometry>
+                <cylinder length="0.09" radius="0.03"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="$(arg x) $(arg y) $(arg z)"/>
+            <geometry>
+                <cylinder length="0.09" radius="0.03"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <gazebo reference="sensor_link">
+        <static>true</static>
+        <sensor type="gpu_ray" name="leica_sensor">
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>true</visualize>
+            <update_rate>40</update_rate>            <!--105-->
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>1</samples>
+                        <resolution>1024</resolution>                        <!--1024-->
+                        <min_angle>-1.4</min_angle>    <!---1.57-->
+                        <max_angle>1.4</max_angle>     <!--1.57-->
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.35</min>
+                    <max>8.0</max>
+                    <max>50.0</max>
+                    <resolution>0.004</resolution>
+                </range>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.002</stddev>
+                </noise>
+            </ray>
+            <plugin name="leica_plugin" filename="libleica_plugin.so">
+                <topicName>/c5/laser/scan</topicName>
+                <frameName>sensor_link</frameName>
+                <!--update_rate>40</update_rate-->
+            </plugin>
+        </sensor>
+    </gazebo>
+
+</robot>

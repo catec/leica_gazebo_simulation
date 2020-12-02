@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>leica_gazebo_simulation</name>
+  <version>0.0.0</version>
+  <description>The leica_gazebo_simulation package</description>
+
+  <author email="imlara@catec.aero">Ines Lara Sicilia</author>
+  <maintainer email="imlara@catec.aero">Ines Lara Sicilia</maintainer>
+  <license>Apache 2.0</license>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>laser_geometry</build_depend>
+  <build_depend>message_generation</build_depend>
+
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <build_export_depend>std_msgs</build_export_depend>
+  <build_export_depend>tf</build_export_depend>
+  <build_export_depend>sensor_msgs</build_export_depend>
+  <build_export_depend>laser_geometry</build_export_depend>
+  
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>tf</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>laser_geometry</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+  <export>
+    <rosdoc config="rosdoc.yaml"/>    
+  </export>
+</package>
