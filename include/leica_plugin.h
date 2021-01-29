@@ -22,10 +22,15 @@
 
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
+#include <thread>
+
+#include <sdf/sdf.hh>
 
 #include <ros/ros.h>
 #include <ros/advertise_options.h>
 #include <sensor_msgs/LaserScan.h>
+#include "std_msgs/Float32.h"
+#include "sensor_msgs/RegionOfInterest.h"
 
 #include <gazebo/physics/physics.hh>
 #include <gazebo/transport/TransportTypes.hh>
@@ -35,97 +40,212 @@
 #include <gazebo/common/Events.hh>
 #include <gazebo/sensors/SensorTypes.hh>
 #include <gazebo/plugins/GpuRayPlugin.hh>
-
-#include <sdf/sdf.hh>
-
 #include <gazebo_plugins/PubQueue.h>
-
-#include <thread>
-
-#include "std_msgs/Float32.h"
-#include "sensor_msgs/RegionOfInterest.h"
-
-// #include "leica_scanstation_msgs/LeicaConfig.h"
 
 #include <condition_variable>
 
 
 namespace gazebo
 {
-  class GazeboRosLaser : public GpuRayPlugin
-  {
-  public:
-    GazeboRosLaser();
+class LeicaPlugin : public GpuRayPlugin
+{
+public:
+    /**
+     * @brief Construct a new Gazebo ROS Laser object
+     * 
+     */
+    LeicaPlugin();
 
-    ~GazeboRosLaser();
+    /**
+     * @brief Destroy the Gazebo ROS Laser object
+     * 
+     */
+    ~LeicaPlugin();
 
+    /**
+     * @brief Load the plugin controller
+     * 
+     * @param _parent Pointer to the laser sensor
+     * @param _sdf Pointer to the *.sdf file with the Leica configuration
+     */
     void Load(sensors::SensorPtr _parent, sdf::ElementPtr _sdf);
     
-    void ScanWindowConfig(const sensor_msgs::RegionOfInterestConstPtr &_msg);
+    /**
+     * @brief Configure the scan window from a topic
+     * 
+     * @param _msg Message with the scan window configuration format
+     */
+    void configureScanWindow(const sensor_msgs::RegionOfInterestConstPtr &_msg);
 
-  private:
-    void LaserConnect();
+private:
+    /**
+     * @brief Register de new laser and connect to its topic
+     * 
+     */
+    void connectToLaser();
 
-    void LaserDisconnect();
+    /**
+     * @brief Unregister the laser
+     * 
+     */
+    void disconnectFromLaser();
 
-    void QueueThread();
+    /**
+     * @brief Tailor the gazebo message to the ROS format
+     * 
+     * @param _msg Message to tailor
+     */
+    void gazeboMsgToROSMsg(ConstLaserScanStampedPtr &_msg);
+
+    /**
+     * @brief Thread that calls all functions in the callback queue when resources are available
+     * 
+     */
+    void callbacksQueueHelperThread();
+
+    /**
+     * @brief Load the sensor controller
+     * 
+     */
+    void gazeboLoaderThread();
     
-    void LoadThread();
+    /**
+     * @brief Seed for the Gaussian noise generator
+     * 
+     */
+    unsigned int seed_;
 
-    /// \brief Keep track of number of connctions
+    /**
+     * @brief Flag to start the laser after the scan window has been set
+     * 
+     */
+    bool start_laser_;
+
+    /**
+     * @brief A counter to register the number of laser sensors in use
+     * 
+     */
     int laser_connect_count_;
 
-    // Pointer to the model
+    /**
+     * @brief Stores the name of the virtual world where the simulation takes place
+     * 
+     */
     std::string world_name_;
-
+    
+    /**
+     * @brief Pointer to the virtual world where the simulation takes place
+     * 
+     */
     physics::WorldPtr world_;
 
-    sensors::GpuRaySensorPtr parent_ray_sensor_;
-
-    ros::NodeHandle *rosnode_;
-
-    ros::Publisher pub_;
-
-    PubQueue<sensor_msgs::LaserScan>::Ptr pub_queue_;
-
+    /**
+     * @brief Saves the name of the topic where the laser scanner publishes what it reads
+     * 
+     */
     std::string topic_name_;
 
-    /// \brief frame transform name, should match link name
+    /**
+     * @brief Stores the name of the root of the reference system tree
+     * 
+     */
     std::string frame_name_;
 
+    /**
+     * @brief tf_prefix_ as the namespace
+     * 
+     */
     std::string tf_prefix_;
 
-    std::string robot_namespace_;
+    /**
+     * @brief The namespace of the Leica station
+     * 
+     */
+    std::string namespace_;
+    
+    /**
+     * @brief Mutex used so that no laser sensor data is published until the configuration of the scan window has been completed
+     * 
+     */
+    std::mutex mutex_;
 
-    // deferred load in case ros is blocking
-    sdf::ElementPtr sdf;
+    /**
+     * @brief Variable used to wait until the configuration of the scan window has been completed
+     * 
+     */
+    std::condition_variable condition_variable_;
+    
+    /**
+     * @brief Thread that calls all functions in the callback queue when resources are available
+     * 
+     */
+    std::thread queue_helper_thread_;
 
-    boost::thread deferred_load_thread_;
+    /**
+     * @brief Pointer to the laser sensor object
+     * 
+     */
+    sensors::GpuRaySensorPtr parent_ray_sensor_;
 
-    unsigned int seed;
+    /**
+     * @brief Pointer to the ROS node
+     * 
+     */
+    ros::NodeHandle *nh_;
 
+    /**
+     * @brief Publisher for the laser sensor
+     * 
+     */
+    ros::Publisher pub_;
+
+    /**
+     * @brief Subscriber for the laser sensor
+     * 
+     */
+    ros::Subscriber sub_;
+
+    /**
+     * @brief Queue for the callback functions
+     * 
+     */
+    ros::CallbackQueue cb_queue_;
+
+    /**
+     * @brief Node for gazebo
+     * 
+     */
     gazebo::transport::NodePtr gazebo_node_;
 
+    /**
+     * @brief Gazebo part of the laser sensor subscriber
+     * 
+     */
     gazebo::transport::SubscriberPtr laser_scan_sub_;
 
-    void OnScan_gzSensorMsg(ConstLaserScanStampedPtr &_msg);
+    /**
+     * @brief Publisher queue
+     * 
+     */
+    PubQueue<sensor_msgs::LaserScan>::Ptr pub_queue_;
 
-    /// \brief prevents blocking
-    PubMultiQueue pmq;
+    /**
+     * @brief Object for the ROS queue system
+     * 
+     */
+    PubMultiQueue pmq_;
 
-    std::unique_ptr<ros::NodeHandle> rosNode;
+    /**
+     * @brief Pointer to the *.sdf file
+     * 
+     */
+    sdf::ElementPtr sdf_;
 
-    ros::Subscriber rosSub;
-
-    ros::CallbackQueue rosQueue;
-
-    std::thread rosQueueThread;
-
-    bool start_laser;
-
-    std::mutex m;
-
-    std::condition_variable cv;
-  };
-} // namespace gazebo
+    /**
+     * @brief Object for the sensor controller thread
+     * 
+     */
+    boost::thread deferred_load_thread_;
+};
+}
 #endif

@@ -5,7 +5,7 @@ set(VTK_LEGACY_SILENT ON)
 add_compile_options(-std=c++11)
 
 find_package(Eigen3 REQUIRED)
-find_package(PCL 1.8 REQUIRED)
+find_package(PCL REQUIRED)
 find_package(roscpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
@@ -27,9 +27,11 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   sensor_msgs
   laser_geometry
+  leica_scanstation_utils
+  leica_scanstation_msgs
 )
 
-catkin_package()
+catkin_package(INCLUDE_DIRS include)
 
 include_directories(
   include
@@ -47,17 +49,14 @@ target_link_libraries(laserscan_to_pointcloud
   ${PCL_LIBRARIES}
 )
 
-# add_executable(plugin 
-#   plugin/plugin.cpp
-# )
+add_executable(leica_service_listener 
+  src/leica_service_listener.cpp
+)
 
-# target_link_libraries(plugin
-#   ${catkin_LIBRARIES}
-# )
-
-# Build the plugin
-# add_library(leica_c5_sensor_plugin SHARED plugin/leica_c5_sensor_plugin.cc)
-# target_link_libraries(leica_c5_sensor_plugin ${GAZEBO_LIBRARIES} ${roscpp_LIBRARIES})
+target_link_libraries(leica_service_listener
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
+)
 
 add_library(leica_plugin plugin/leica_plugin.cpp)
 target_link_libraries(leica_plugin ${catkin_LIBRARIES} GpuRayPlugin)

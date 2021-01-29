@@ -1,8 +1,0 @@
-<launch>
-
-  <arg name="namespace" default="c5"/>
-
-  <node name="laserscan_to_pointcloud_node" pkg="leica_gazebo_simulation" type="laserscan_to_pointcloud" ns="$(arg namespace)" 
-        output="screen"/>
-
-</launch>

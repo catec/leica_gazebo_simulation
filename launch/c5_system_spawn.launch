@@ -1,28 +1,28 @@
 <?xml version="1.0"?>
 <launch>
 
-  <arg name="publish_tf" default="true" doc="whether or not publish tf data for c5"/>
-  <arg name="z_c5"       default="2.3" />
-  <arg name="world"      default="assembly_line"/>
+      <arg name="publish_tf" default="true" doc="whether or not publish tf data for c5"/>
+      <arg name="z_c5"       default="2.3" />
+      <arg name="world"      default="assembly_line"/>
 
-  <!-- Start Gazebo -->
-  <env name="GAZEBO_RESOURCE_PATH" value="$(find leica_gazebo_simulation)/meshes" />
-  <include file="$(find gazebo_ros)/launch/empty_world.launch">
-  <arg name="world_name" value="$(find leica_gazebo_simulation)/worlds/$(arg world).world"/>
-    <arg name="paused"     value="true"/>
-  </include>
+      <!-- Start Gazebo -->
+      <env name="GAZEBO_RESOURCE_PATH" value="$(find leica_gazebo_simulation)/meshes" />
+      <include file="$(find gazebo_ros)/launch/empty_world.launch">
+            <arg name="world_name" value="$(find leica_gazebo_simulation)/worlds/$(arg world).world"/>
+            <arg name="paused"     value="true"/>
+      </include>
 
-  <!-- spawn c5 in gazebo -->
-  <param command="$(find xacro)/xacro -i $(find leica_gazebo_simulation)/urdf/c5.urdf.xacro" name="c5_param"/>
-  <node args="-urdf -param c5_param -model c5 -x 3.6 -y 2.4 -z $(arg z_c5) -Y -3.14159"
-        name="spawn_c5" pkg="gazebo_ros" type="spawn_model" output="screen"/>
+      <!-- spawn c5 in gazebo -->
+      <param command="$(find xacro)/xacro -i $(find leica_gazebo_simulation)/urdf/c5.urdf.xacro" name="c5_param"/>
+      <node args="-urdf -param c5_param -model c5 -x 3.6 -y 2.4 -z $(arg z_c5) -Y -3.14159"
+            name="spawn_c5" pkg="gazebo_ros" type="spawn_model" output="screen"/>
 
-  <!-- Tf c5_link to world -->
-  <node if="$(arg publish_tf)"
-        name="tf_broadcaster" pkg="leica_gazebo_simulation" type="publish_tf.py" output="screen"/>
-  
-  <node if="$(arg publish_tf)"
-        pkg="tf" type="static_transform_publisher" name="c5_sensor_tf"  
-        args="0 0 -0.073 0.707 0 0 0.707 c5_link sensor_link 100"/>
+      <!-- Tf c5_link to world -->
+      <node if="$(arg publish_tf)"
+            name="tf_broadcaster" pkg="leica_gazebo_simulation" type="publish_tf.py" output="screen"/>
+      
+      <node if="$(arg publish_tf)"
+            pkg="tf" type="static_transform_publisher" name="c5_sensor_tf"  
+            args="0 0 -0.073 0.707 0 0 0.707 c5_link sensor_link 100"/>
         
 </launch>
