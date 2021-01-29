@@ -1,0 +1,5 @@
+ - builder: doxygen
+   name: leica_gazebo_simulation
+  #  output_dir: doc
+   file_patterns: '*.c *.cpp *.h *.hpp'
+   exclude_patterns: '*/scripts*'

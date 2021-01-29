@@ -27,41 +27,13 @@ Generate default world and place the device at your convenience
 
     roslaunch leica_gazebo_simulation c5_system_spawn.launch world:=assembly_line
 
-    roslaunch leica_gazebo_simulation laserscan_to_pointcloud.launch namespace:=c5
+    roslaunch leica_gazebo_simulation c5_init.launch namespace:=c5
 
-    rosrun leica_gazebo_simulation move_c5_pan.py
-
-    rostopic pub /c5/simulator/resolution std_msgs/Float64 "data: 1024.0"
-
-    rostopic pub /c5/simulator/window sensor_msgs/RegionOfInterest "{x_offset: 0, y_offset: 0, height: 1, width: 2, do_rectify: false}"
+    rosservice call /c5/scan "{file_name: 'scan_sim', vertical_res: 512, horizontal_res: 1024, pan_center: 0.0, tilt_center: 0.0, width: 2, height: 2}"
 
 ## Dependencies ##
 
 * ROS [Kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu)
-
-* Update default Gazebo 7 to Gazebo 9
-
-    -  Uninstall older version of Gazebo
-    
-            sudo apt-get remove ros-kinetic-gazebo*
-
-            sudo apt-get remove libgazebo*
-
-            sudo apt-get remove gazebo*
-
-    -  Update the repository
-
-            sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
-
-            wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
-
-            sudo apt-get update
-
-
-    - Install Gazebo 9
-
-            sudo apt-get install ros-kinetic-gazebo9-*
-
 
 * PCL:
 
@@ -69,30 +41,15 @@ Generate default world and place the device at your convenience
 
             sudo apt-get install libboost1.58* libflann1.8 libeigen3-dev
 
-    4. VTK
-
-            wget http://www.vtk.org/files/release/7.1/VTK-7.1.0.tar.gz
-            tar -xf VTK-7.1.0.tar.gz
-            cd VTK-7.1.0 && mkdir build && cd build
-            cmake ..
-            make                                                                   
-            sudo make install
-
-    5. PCL y PCL-ROS
+    2. PCL-ROS y PCL-CONVERSIONS
 
             sudo apt-get install ros-kinetic-pcl-*
 
-            wget https://github.com/PointCloudLibrary/pcl/archive/pcl-1.8.0.tar.gz
-            tar -xf pcl-1.8.0.tar.gz
-            cd pcl-pcl-1.8.0 && mkdir build && cd build
-            cmake ..
-            make
-            sudo make install
+* Leica packages:
 
-* PYTHON-PCL
+    1. [leica_scanstation_msgs](https://github.com/fada-catec/leica_scanstation/tree/master/leica_scanstation_msgs)
 
-        pip3 install python-pcl
-        
+    2. [leica_scanstation_utils](https://github.com/fada-catec/leica_scanstation/tree/master/leica_scanstation_utils)
 
 ## Doc ##
 
