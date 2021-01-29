@@ -2,13 +2,8 @@
 <package format="2">
   <name>leica_gazebo_simulation</name>
   <version>0.0.0</version>
-  <description>
-    <p>
-    The leica_gazebo_simulation package provides a simulated model of a Leica ScanStation C5
-    with a custom plugin able to get LaserScan data to Gazebo.
-    </p>
-  </description>
-  <url>http://wiki.ros.org/leica_gazebo_simulation</url>
+  <description>The leica_gazebo_simulation package</description>
+
   <author email="imlara@catec.aero">Ines Lara Sicilia</author>
   <maintainer email="imlara@catec.aero">Ines Lara Sicilia</maintainer>
   <license>Apache 2.0</license>
