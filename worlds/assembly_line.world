@@ -5607,7 +5607,7 @@
           <geometry>
             <mesh>
               <scale>3 3 3</scale>
-              <uri>file://CAJON.stl</uri>
+              <uri>file://box.stl</uri>
             </mesh>
           </geometry>
         </visual>
