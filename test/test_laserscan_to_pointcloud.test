@@ -1,0 +1,11 @@
+<launch>
+
+    <arg name="namespace" default="c5"/>
+
+    <node name="bag_example" pkg="rosbag" type="play" output="screen" args="-r 10 $(find leica_gazebo_simulation)/test/bag_example.bag"/>
+
+    <node name="laserscan_to_pointcloud" pkg="leica_gazebo_simulation" type="laserscan_to_pointcloud" ns="$(arg namespace)" output="screen"/>
+
+    <test test-name="test_laserscan_to_pointcloud" pkg="leica_gazebo_simulation" type="test_laserscan_to_pointcloud" ns="$(arg namespace)"/>
+    
+</launch>

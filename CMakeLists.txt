@@ -60,3 +60,12 @@ target_link_libraries(leica_service_listener
 
 add_library(leica_plugin plugin/leica_plugin.cpp)
 target_link_libraries(leica_plugin ${catkin_LIBRARIES} GpuRayPlugin)
+
+
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+
+  add_rostest_gtest(test_laserscan_to_pointcloud test/test_laserscan_to_pointcloud.test test/test_laserscan_to_pointcloud.cpp)
+  target_link_libraries(test_laserscan_to_pointcloud ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+
+endif()
