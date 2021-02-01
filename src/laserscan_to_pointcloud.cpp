@@ -20,6 +20,7 @@ ScanToPointCloud::ScanToPointCloud(ros::NodeHandle nh)
     store_sub_ = nh_.advertiseService("store_cloud", &ScanToPointCloud::saveCloudCb, this);
 
     counter_ = 0;
+    file_name_ = LeicaUtils::getFilePath("scan", ".pcd"); // default
 }
 
 void ScanToPointCloud::filenameCb(const std_msgs::String::ConstPtr& msg)
