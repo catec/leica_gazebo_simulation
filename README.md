@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.com/fada-catec/leica_gazebo_simulation.svg?branch=master)](https://travis-ci.com/fada-catec/leica_gazebo_simulation)
 
 This repo contains source code to develop a simulator in Gazebo for Leica Scanstation C5.
-This is involved in a ROSIN project.
+It is involved in the ROSIN project [Large_3D_inspection](http://wiki.ros.org/large_3d_inspection)
 
 ![simulator](simulator.gif)
 
@@ -26,11 +26,15 @@ This is involved in a ROSIN project.
 
 ## Usage ##
 
-Generate default world and place the device at your convenience
+Generate default world and place the device at your convenience.
 
     roslaunch leica_gazebo_simulation c5_system_spawn.launch world:=assembly_line
 
+The plugin created for LeicaScanstation C5 on Gazebo will publish LaserScan msg. Use laserscan_to_pointcloud to convert it to PointCloud2. Run the plugin to start movement and complete a scan on Gazebo.
+
     roslaunch leica_gazebo_simulation c5_init.launch namespace:=c5
+
+Tell simulator to start scan with desired [window parameters](http://wiki.ros.org/leica_scanstation#Scan_with_Leica_Scanstation_C5). Point cloud is published simultaneously. Once scan is finished, it will store the complete point cloud with given file_name on folder specified in ROS param server as `/pointcloud_folder` (default: package leica_scanstation_utils/pointclouds).
 
     rosservice call /c5/scan "{file_name: 'scan_sim', vertical_res: 512, horizontal_res: 1024, pan_center: 0.0, tilt_center: 0.0, width: 2, height: 2}"
 
