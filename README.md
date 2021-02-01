@@ -1,5 +1,8 @@
 # LEICA SCANSTATION C5 #
 
+[![License](https://img.shields.io/badge/License-Apache%202-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Build Status](https://travis-ci.com/fada-catec/leica_gazebo_simulation.svg?branch=master)](https://travis-ci.com/fada-catec/leica_gazebo_simulation)
+
 This repo contains source code to develop a simulator in Gazebo for Leica Scanstation C5.
 This is involved in a ROSIN project.
 
