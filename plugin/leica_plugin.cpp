@@ -1,5 +1,6 @@
-/*
- * Copyright 2013 Open Source Robotics Foundation
+/**
+ * @file leica_plugin.cpp
+ * @copyright Copyright (c) 2020, FADA-CATEC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,14 +13,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
-*/
+ */
 
 /*
    Desc: based on GazeboRosGpuLaser plugin for simulating ray sensors in Gazebo
    Author: Mihai Emanuel Dolha
    Date: 29 March 2012
- */
+*/
 
 #include <algorithm>
 #include <string>

@@ -1,5 +1,6 @@
-/*
- * Copyright 2012 Open Source Robotics Foundation
+/**
+ * @file leica_plugin.h
+ * @copyright Copyright (c) 2020, FADA-CATEC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,11 +13,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/*
+   Desc: based on GazeboRosGpuLaser plugin for simulating ray sensors in Gazebo
+   Author: Mihai Emanuel Dolha
+   Date: 29 March 2012
 */
 
-#ifndef GAZEBO_ROS_LASER_HH
-#define GAZEBO_ROS_LASER_HH
+#pragma once
+#ifndef _LEICA_PLUGIN_H
+#define _LEICA_PLUGIN_H
 
 #include <string>
 
@@ -43,7 +50,6 @@
 #include <gazebo_plugins/PubQueue.h>
 
 #include <condition_variable>
-
 
 namespace gazebo
 {
