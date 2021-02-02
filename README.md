@@ -40,7 +40,7 @@ Tell simulator to start scan with desired [window parameters](http://wiki.ros.or
 
 ## Dependencies ##
 
-* ROS [Kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu)
+* ROS [Kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu) // ROS [Melodic](http://wiki.ros.org/melodic/Installation/Ubuntu) 
 
 * PCL:
 
@@ -50,7 +50,7 @@ Tell simulator to start scan with desired [window parameters](http://wiki.ros.or
 
     2. PCL-ROS y PCL-CONVERSIONS
 
-            sudo apt-get install ros-kinetic-pcl-*
+            sudo apt-get install ros-$ROS_DISTRO-pcl-*
 
 * Leica packages:
 
