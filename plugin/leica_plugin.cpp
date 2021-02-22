@@ -176,11 +176,11 @@ namespace gazebo
 
     void LeicaPlugin::connectToLaser()
     {
-        this->laser_connect_count_++;
-
         // Wait until the configuration of the scan window has been completed
         std::unique_lock<std::mutex> lk(mutex_);
         condition_variable_.wait(lk, [&] { return start_laser_; });
+
+        this->laser_connect_count_++;
 
         ROS_INFO("LaserConnect: laser connect count: %d", laser_connect_count_);
         if (this->laser_connect_count_ == 1)
