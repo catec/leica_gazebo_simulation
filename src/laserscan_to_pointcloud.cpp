@@ -56,6 +56,7 @@ bool ScanToPointCloud::saveCloudCb(std_srvs::Trigger::Request &req, std_srvs::Tr
 
     // Reset the cloud after saving it
     total_cloud_.reset(new PointCloudXYZ);
+    init_cloud_ = true;
 
     return true;
 }
